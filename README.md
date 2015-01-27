@@ -7,6 +7,16 @@ Simple syntax highlighting for the console via the [highlight.js](https://highli
 This module is compatible with a large quantity of languages and provides a number of styles.
 
 
+Installation
+------------
+Run the following to install:
+
+	sudo npm install -g nocat
+
+
+Usage
+-----
+
 ```
   Usage: nocat [files...]
 
