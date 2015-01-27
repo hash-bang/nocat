@@ -1,6 +1,6 @@
 {
   "name": "nocat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NOde Cat - CLI tool to output raw file contents with syntax highlighting",
   "main": "app.js",
   "repository": {
