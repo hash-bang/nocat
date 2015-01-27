@@ -1,0 +1,35 @@
+{
+  "name": "nocat",
+  "version": "1.0.0",
+  "description": "NOde Cat - CLI tool to output raw file contents with syntax highlighting",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hash-bang/nocat"
+  },
+  "license": "MIT",
+  "keywords": [
+    "cat",
+    "console",
+    "syntax",
+    "highlighting",
+    "cli"
+  ],
+  "author": "Matt Carter <m@ttcarter.com>",
+  "bugs": {
+    "url": "https://github.com/hash-bang/nocat/issues"
+  },
+  "bin": {
+    "nocat": "./app.js"
+  },
+  "preferGlobal": true,
+  "homepage": "https://github.com/hash-bang/nocat",
+  "dependencies": {
+    "cheerio": "~0.18.0",
+    "commander": "~2.6.0",
+    "crayon-terminal": "~3.0.0",
+    "css": "~2.1.0",
+    "highlight.js": "~8.4.0",
+    "mime": "~1.2.11"
+  }
+}
