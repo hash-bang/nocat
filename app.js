@@ -30,8 +30,7 @@ if (program.list) {
 
 // Load theme {{{
 // Load raw CSS AST {{{
-var styleFile = './node_modules/highlight.js/styles/' + program.style + '.css';
-console.log(styleFile);
+var styleFile = __dirname + '/node_modules/highlight.js/styles/' + program.style + '.css';
 if (!fs.existsSync(styleFile)) {
 	console.log('Invalid style:', program.style);
 	process.exit(1);
@@ -79,7 +78,7 @@ program.args.forEach(function(arg) {
 	if (program.verbose) console.log(arg + ': ' + mimeType + ' (' + langType + ')');
 
 	if (langType == 'raw') {
-		console.log(fs.readFileSync(arg));
+		console.log(fs.readFileSync(arg).toString());
 	} else {
 		var html = hljs.highlight(langType, fs.readFileSync(arg).toString()).value;
 		var $ = cheerio.load(html);
