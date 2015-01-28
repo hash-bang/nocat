@@ -9,13 +9,14 @@ var util = require('util');
 
 function NOCat() {
 	this._style = null;
+	this._stylePath = __dirname + '/node_modules/highlight.js/styles';
 
 	this.setStyle = function(styleName) {
 		var self = this;
 
-		if (this._style && this._style._name == styleName) return; // Already loaded
+		if (this._style && this._style._name == styleName) return this; // Already loaded
 		// Load raw CSS AST {{{
-		var styleFile = __dirname + '/node_modules/highlight.js/styles/' + styleName + '.css';
+		var styleFile = this._stylePath + '/' + styleName + '.css';
 		if (!fs.existsSync(styleFile))
 			throw new Error('Invalid style:', styleName);
 		var ast = css.parse(fs.readFileSync(styleFile).toString(), {comments: true});
@@ -39,6 +40,16 @@ function NOCat() {
 		});
 		// }}}
 		return this;
+	};
+
+	this.getStyles = function() {
+		return fs.readdirSync(this._stylePath).map(function(file) {
+			return file.replace(/\.css$/, '');
+		});
+	};
+
+	this.getLanguages = function() {
+		return hljs.listLanguages();
 	};
 
 	this.exec = function(files, options, finish) {

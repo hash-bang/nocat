@@ -7,16 +7,25 @@ program
 	.version(require('./package.json').version)
 	.usage('[files...]')
 	.option('-l, --lang [language]', 'Force language setting. If unspecified it will be determined from mime')
-	.option('--list', 'List available language highlighters')
 	.option('-n, --no-color', 'Disable syntax highlighting and act like regular `cat`')
 	.option('-v, --verbose', 'Be verbose')
 	.option('-s, --style [style]', 'Set the output color style (default: zenburn)', 'zenburn')
+	.option('--list-languages', 'List available language highlighters')
+	.option('--list-styles', 'List available styles')
 	.parse(process.argv);
 
 if (program.noColor) program.lang = 'raw';
-// Deal with `--list` {{{
-if (program.list) {
-	hljs.listLanguages().forEach(function(lang) {
+// Deal with `--list-styles` {{{
+if (program.listStyles) {
+	nocat.getStyles().forEach(function(style) {
+		console.log(style);
+	});
+	process.exit();
+}
+// }}}
+// Deal with `--list-langs` {{{
+if (program.listLanguages) {
+	nocat.getLanguages().forEach(function(lang) {
 		console.log(lang);
 	});
 	process.exit();
