@@ -45,8 +45,9 @@ CLI Usage
     -h, --help             output usage information
     -V, --version          output the version number
     -l, --lang [language]  Force language setting. If unspecified it will be determined from mime
-    --list                 List available language highlighters
     -n, --no-color         Disable syntax highlighting and act like regular `cat`
     -v, --verbose          Be verbose
-    -s, --style [style]    Set the output color style (default: zenburn)
+    -s, --style [style]    Set the output color style (default: sunburst)
+    --list-languages       List available language highlighters
+    --list-styles          List available styles
 ```

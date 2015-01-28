@@ -66,7 +66,7 @@ function NOCat() {
 		var settings = {
 			color: true,
 			language: null, // null = auto
-			style: 'zenburn',
+			style: 'sunburst',
 			mimeByName: true,
 			mimeByMagic: true,
 		};
@@ -95,7 +95,6 @@ function NOCat() {
 					if (!settings.mimeByMagic) return next(); // Not allowed to detect by magic
 
 					magic.detectFile(file, function(err, result) {
-						console.log('TRY MAGIC', file, result);
 						if (err) return next(err);
 						mimeType = result;
 						next();

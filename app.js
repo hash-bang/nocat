@@ -9,7 +9,7 @@ program
 	.option('-l, --lang [language]', 'Force language setting. If unspecified it will be determined from mime')
 	.option('-n, --no-color', 'Disable syntax highlighting and act like regular `cat`')
 	.option('-v, --verbose', 'Be verbose')
-	.option('-s, --style [style]', 'Set the output color style (default: zenburn)', 'zenburn')
+	.option('-s, --style [style]', 'Set the output color style (default: sunburst)', 'sunburst')
 	.option('--list-languages', 'List available language highlighters')
 	.option('--list-styles', 'List available styles')
 	.parse(process.argv);
