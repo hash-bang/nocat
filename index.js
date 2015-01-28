@@ -8,47 +8,53 @@ var mime = require('mime');
 var util = require('util');
 
 function NOCat() {
-	this.exec = function(files, options, finish) {
+	this._style = null;
+
+	this.setStyle = function(styleName) {
 		var self = this;
 
-		var settings = {
-			color: true,
-			language: null, // null = auto
-			theme: 'zenburn',
-		};
-
-		if (options) // Read in optional settings (if any)
-			for (var k in options)
-				settings[k] = options[k];
-
-		// Load style {{{
+		if (this._style && this._style._name == styleName) return; // Already loaded
 		// Load raw CSS AST {{{
-		var styleFile = __dirname + '/node_modules/highlight.js/styles/' + settings.style + '.css';
-		if (!fs.existsSync(styleFile)) {
-			console.log('Invalid style:', settings.style);
-			process.exit(1);
-		}
+		var styleFile = __dirname + '/node_modules/highlight.js/styles/' + styleName + '.css';
+		if (!fs.existsSync(styleFile))
+			throw new Error('Invalid style:', styleName);
 		var ast = css.parse(fs.readFileSync(styleFile).toString(), {comments: true});
 		// }}}
 		// Extract color info from style object {{{
-		var styles = {};
+		this._style = {_name: styleName};
 		ast.stylesheet.rules.forEach(function(rule) {
 			if (!rule.selectors) return;
 			rule.selectors.forEach(function(rawSelector) {
 				rawSelector.split(/\s+/).forEach(function(selector) {
 					if (/^\.hljs-.*$/.test(selector)) {
 						var key = selector.substr(1);
-						styles[key] = {};
+						self._style[key] = {};
 						rule.declarations.forEach(function(dec) {
 							if (dec.property = 'color')
-								styles[key].color = dec.value;
+								self._style[key].color = dec.value;
 						});
 					}
 				});
 			});
 		});
 		// }}}
-		// }}}
+		return this;
+	};
+
+	this.exec = function(files, options, finish) {
+		var self = this;
+
+		var settings = {
+			color: true,
+			language: null, // null = auto
+			style: 'zenburn',
+		};
+
+		if (options) // Read in optional settings (if any)
+			for (var k in options)
+				settings[k] = options[k];
+
+		if (settings.style) this.setStyle(settings.style);
 
 		files.forEach(function(file) {
 			var langType = settings.language;
@@ -71,16 +77,16 @@ function NOCat() {
 			self.emit('file', file, mimeType, langType);
 
 			var output;
-			if (langType == 'raw') {
+			if (langType == 'raw' || !self._style) {
 				output = fs.readFileSync(file).toString();
 			} else {
 				var html = hljs.highlight(langType, fs.readFileSync(file).toString()).value;
 				var $ = cheerio.load(html);
 				$('span').replaceWith(function() {
 					var span = $(this);
-					for (var key in styles) {
+					for (var key in self._style) {
 						if (span.hasClass(key))
-							return crayon.foreground(styles[key].color)($(this).text())
+							return crayon.foreground(self._style[key].color)($(this).text())
 					}
 					return $(this).text();
 				});
