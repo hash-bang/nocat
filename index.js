@@ -34,8 +34,13 @@ function NOCat() {
 						var key = selector.substr(1);
 						self._style[key] = {};
 						rule.declarations.forEach(function(dec) {
-							if (dec.property == 'color')
+							if (dec.property == 'color') {
 								self._style[key].color = dec.value;
+							} else if (dec.property == 'font-weight' && dec.value == 'bold') {
+								self._style[key].bold = true;
+							} else if (dec.property == 'text-decoration' && dec.value == 'underline') {
+								self._style[key].underline = true;
+							}
 						});
 					}
 				});
@@ -131,10 +136,19 @@ function NOCat() {
 						var $ = cheerio.load(html);
 						$('span').replaceWith(function() {
 							var span = $(this);
+							var pen = [];
 							for (var key in self._style) {
-								if (span.hasClass(key) && self._style[key].color)
-									return crayon.foreground(self._style[key].color)($(this).text())
+								if (span.hasClass(key)) {
+									if (self._style[key].color)
+										pen.push(self._style[key].color);
+									if (self._style[key].bold)
+										pen.push('bold');
+									if (self._style[key].underline)
+										pen.push('underline');
+								}
 							}
+							if (pen)
+								return crayon.apply(this, pen)($(this).text())
 							return $(this).text();
 						});
 
