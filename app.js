@@ -39,6 +39,9 @@ nocat
 	.on('end', function(file, content) {
 		console.log(content);
 	})
+	.on('error', function(err) {
+		console.log('Error: ', err);
+	})
 	.exec(program.args, {
 		color: !program.noColor,
 		language: program.lang,

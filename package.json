@@ -25,11 +25,13 @@
   "preferGlobal": true,
   "homepage": "https://github.com/hash-bang/nocat",
   "dependencies": {
+    "async-chainable": "~1.7.1",
     "cheerio": "~0.18.0",
     "commander": "~2.6.0",
     "crayon-terminal": "~3.0.0",
     "css": "~2.1.0",
     "highlight.js": "~8.4.0",
-    "mime": "~1.2.11"
+    "mime": "~1.2.11",
+    "mmmagic": "~0.3.13"
   }
 }
