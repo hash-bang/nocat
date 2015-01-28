@@ -14,8 +14,28 @@ Run the following to install:
 	sudo npm install -g nocat
 
 
-Usage
------
+Module usage
+------------
+
+```javascript
+var nocat = require('nocat');
+
+nocat
+	.on('file', function(file, mime, lang) {
+		console.log('Processing', file, '...');
+	})
+	.on('end', function(file, content) {
+		console.log(content);
+	})
+	.exec(program.args, {
+		color: true,
+		style: 'zenburn',
+	})
+```
+
+
+CLI Usage
+---------
 
 ```
   Usage: nocat [files...]
