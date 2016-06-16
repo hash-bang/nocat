@@ -5,7 +5,6 @@ var css = require('css');
 var events = require('events');
 var hljs = require('highlight.js');
 var fs = require('fs');
-var mmmagic = require('mmmagic');
 var mime = require('mime');
 var util = require('util');
 
@@ -67,8 +66,6 @@ function NOCat() {
 			color: true,
 			language: null, // null = auto
 			style: 'sunburst',
-			mimeByName: true,
-			mimeByMagic: true,
 		};
 
 		if (options) // Read in optional settings (if any)
@@ -77,28 +74,14 @@ function NOCat() {
 
 		if (settings.style) this.setStyle(settings.style);
 
-		if (settings.mimeByMagic)
-			var magic = new mmmagic.Magic(mmmagic.MAGIC_MIME_TYPE|mmmagic.MAGIC_CONTINUE);
-
 		files.forEach(function(file) {
 			var langType = settings.language;
 			var mimeType = null; 
 
 			async()
 				.then(function(next) { // Detect mime by file name
-					if (!settings.mimeByName) return next();
 					mimeType = mime.lookup(file);
 					next();
-				})
-				.then(function(next) { // Detect mime by magic
-					if (mimeType) return next(); // Found in a previous stage
-					if (!settings.mimeByMagic) return next(); // Not allowed to detect by magic
-
-					magic.detectFile(file, function(err, result) {
-						if (err) return next(err);
-						mimeType = result;
-						next();
-					});
 				})
 				.then(function(next) { // Try to map mime against mime lookups
 					if (self._mime2language[mimeType]) {
