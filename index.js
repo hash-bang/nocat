@@ -11,10 +11,10 @@ var path = require('path');
 
 function NOCat() {
 	this._style = null;
-    var stylePath = __dirname + '/node_modules/highlight.js/styles';
-    if (!fs.existsSync(stylePath)){
-      stylePath = path.join(__dirname, '../highlight.js/styles');
-    }
+	var stylePath = __dirname + '/node_modules/highlight.js/styles';
+	if (!fs.existsSync(stylePath)){
+		stylePath = path.join(__dirname, '../highlight.js/styles');
+	}
 
 	this._stylePath = stylePath;
 	this._mime2language = require('./mime2language');
