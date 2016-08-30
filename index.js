@@ -7,10 +7,16 @@ var hljs = require('highlight.js');
 var fs = require('fs');
 var mime = require('mime');
 var util = require('util');
+var path = require('path');
 
 function NOCat() {
 	this._style = null;
-	this._stylePath = __dirname + '/node_modules/highlight.js/styles';
+	var stylePath = __dirname + '/node_modules/highlight.js/styles';
+	if (!fs.existsSync(stylePath)){
+		stylePath = path.join(__dirname, '../highlight.js/styles');
+	}
+
+	this._stylePath = stylePath;
 	this._mime2language = require('./mime2language');
 
 	this.setStyle = function(styleName) {
