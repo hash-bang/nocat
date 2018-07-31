@@ -82,11 +82,11 @@ function NOCat() {
 
 		files.forEach(function(file) {
 			var langType = settings.language;
-			var mimeType = null; 
+			var mimeType = null;
 
 			async()
 				.then(function(next) { // Detect mime by file name
-					mimeType = mime.lookup(file);
+					mimeType = mime.getType(file);
 					next();
 				})
 				.then(function(next) { // Try to map mime against mime lookups
@@ -141,6 +141,8 @@ function NOCat() {
 						});
 
 						output = $.html()
+							.replace(/^\<html\>\<head\>\<\/head\>\<body\>/, '')
+							.replace(/\<\/body\>\<\/html\>$/, '')
 							.replace(/\&apos;/g, "'")
 							.replace(/\&quot;/g, '"')
 					}
@@ -149,7 +151,7 @@ function NOCat() {
 					self.emit('end', file, output);
 				});
 		});
-	
+
 		return this;
 	};
 };
